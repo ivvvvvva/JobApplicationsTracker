@@ -1,0 +1,7 @@
+build/
+build-modern-check/
+.tools-venv/
+*.db
+*.user
+*.autosave
+aqtinstall.log
