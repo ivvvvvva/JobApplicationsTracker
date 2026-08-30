@@ -1,21 +1,24 @@
 # Job Applications Tracker
 
-Desktop aplikacija za pracenje prijava za posao i pripremu za intervjue.
+Ovo je desktop aplikacija koju sam napravila da bih lakse pratila prijave za posao i pitanja za intervjue.
 
-Projekat je napravljen kao C++ projekat. Koristi Qt Widgets za graficki interfejs, SQLite za lokalno cuvanje podataka i CMake za build.
+Ideja je da na jednom mestu imam kompanije, pozicije, status prijave i pitanja koja zelim da vezbam pre intervjua. Projekat je pisan u C++-u, sa Qt Widgets interfejsom i lokalnom SQLite bazom.
 
-## Funkcionalnosti
+## Sta aplikacija radi
 
-- Dashboard sa osnovnom statistikom
-- Dodavanje, izmena, brisanje i pregled prijava za posao
-- Pretraga prijava po kompaniji i poziciji
-- Filtriranje prijava po statusu
-- Cuvanje interview pitanja za svaku prijavu
-- Question Bank sa pretragom i filterima
-- Oznacavanje pitanja kao practiced/not practiced
-- Mock Interview sa nasumicno izabranim pitanjima
+- prikazuje osnovnu statistiku prijava
+- cuva prijave za posao
+- omogucava dodavanje, izmenu i brisanje prijava
+- pretrazuje prijave po kompaniji ili poziciji
+- filtrira prijave po statusu
+- cuva interview pitanja za svaku prijavu
+- ima poseban pregled svih pitanja
+- oznacava da li je pitanje vezbano
+- ima mock interview opciju sa nasumicnim pitanjima
 
 ## Tehnologije
+
+Koristila sam:
 
 - C++17
 - Qt 6 Widgets
@@ -24,15 +27,15 @@ Projekat je napravljen kao C++ projekat. Koristi Qt Widgets za graficki interfej
 - CMake
 - Ninja
 
-## Pokretanje Na Windows-u
+## Pokretanje na Windows-u
 
-Potrebno je instalirati MSYS2 i pakete:
+Potrebno je imati MSYS2 i instalirane pakete za Qt, CMake i Ninja:
 
 ```bash
 pacman -S --needed mingw-w64-x86_64-gcc mingw-w64-x86_64-qt6-base mingw-w64-x86_64-cmake mingw-w64-x86_64-ninja
 ```
 
-Build i pokretanje iz PowerShell-a:
+Build iz PowerShell-a:
 
 ```powershell
 cd "C:\Users\ivaci\Desktop\JobApplications"
@@ -41,16 +44,16 @@ cmake --build build
 .\build\JobApplicationsTracker.exe
 ```
 
-Ako je projekat vec buildovan, dovoljno je:
+Ako je projekat vec buildovan, dovoljno je samo:
 
 ```powershell
 cmake --build build
 .\build\JobApplicationsTracker.exe
 ```
 
-Poruka `ninja: no work to do.` nije greska. Znaci da nema novih izmena za kompajliranje.
+Ako se pojavi poruka `ninja: no work to do.`, to nije greska. Samo znaci da nema novih izmena za kompajliranje.
 
-## Pokretanje Na Linux-u
+## Pokretanje na Linux-u
 
 Primer za Ubuntu/Debian:
 
@@ -62,7 +65,7 @@ cmake --build build
 ./build/JobApplicationsTracker
 ```
 
-## Struktura Projekta
+## Struktura projekta
 
 ```text
 database/schema.sql
@@ -74,23 +77,22 @@ src/repositories/
 src/ui/
 ```
 
-## Arhitektura
+Ukratko:
 
-Projekat ima jednostavnu strukturu:
+- `models` sadrzi klase za prijave i pitanja
+- `database` sadrzi konekciju i inicijalizaciju baze
+- `repositories` rade SQL operacije
+- `ui` sadrzi glavne prozore i dijaloge
 
-- `models` sadrzi klase `JobApplication` i `InterviewQuestion`
-- `database` sadrzi `DatabaseManager`
-- `repositories` sadrzi SQL operacije nad prijavama i pitanjima
-- `ui` sadrzi Qt prozore i dijaloge
+Baza ima dve glavne tabele: `applications` i `questions`.
+Pitanja su povezana sa prijavama, tako da se pitanja za neku prijavu brisu zajedno sa tom prijavom.
 
-SQLite baza ima dve glavne tabele: `applications` i `questions`. Tabela `questions` ima foreign key prema tabeli `applications`, uz `ON DELETE CASCADE`.
+## Demo podaci
 
-## Demo Podaci
-
-Za ubacivanje demo podataka:
+Za ubacivanje demo podataka moze da se pokrene:
 
 ```bash
 python scripts/seed_demo_data.py
 ```
 
-Script dodaje nekoliko demo prijava i pitanja iz oblasti data science/data engineering.
+Script dodaje nekoliko primera prijava i pitanja, cisto da aplikacija ne bude prazna pri testiranju.
