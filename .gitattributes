@@ -1,2 +1,0 @@
-*.py linguist-detectable=false
-scripts/seed_demo_data.py linguist-detectable=false
